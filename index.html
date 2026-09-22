@@ -48,7 +48,7 @@
         /* DARK MODE OVERRIDES */
         html.dark body { background-color: #0b0f19; color: #f1f5f9; }
         html.dark .bento-card, html.dark .bg-white { background-color: #1e293b !important; border-color: #334155 !important; }
-        html.dark nav { background-color: rgba(30, 41, 59, 0.95) !important; border-color: #334155 !important; }
+        html.dark nav, html.dark #mobile-menu { background-color: rgba(30, 41, 59, 0.96) !important; border-color: #334155 !important; }
         html.dark .text-brand-dark { color: #ffffff !important; }
         html.dark .text-gray-500, html.dark .text-gray-600 { color: #94a3b8 !important; }
         html.dark .bg-gray-50 { background-color: #0f172a !important; }
@@ -82,25 +82,57 @@
 </head>
 <body class="antialiased font-sans pt-28 bg-gray-50 dark:bg-[#0b0f19] transition-colors duration-300">
 
-    <!-- NAVBAR (FLOATING & STICKY) -->
-    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-white/95 backdrop-blur-md px-6 py-3 rounded-full shadow-xl flex items-center gap-8 border border-gray-100 transition-all duration-300">
-        <div class="font-bold text-xl tracking-tight text-brand-dark">
-            Bodhi<span class="text-brand-orange">labs.</span>
-        </div>
-        <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
-            <a href="#home" id="nav-home" class="hover:text-brand-orange transition border-b-2 border-brand-orange text-brand-orange pb-1 nav-link">Beranda</a>
-            <a href="#products" id="nav-products" class="hover:text-brand-orange transition border-b-2 border-transparent pb-1 nav-link">Katalog Produk</a>
-            <a href="#contact" id="nav-contact" class="hover:text-brand-orange transition border-b-2 border-transparent pb-1 nav-link">Kontak</a>
-        </div>
-        <div class="flex items-center gap-4">
-            <button id="theme-toggle" onclick="toggleTheme()" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 hover:text-brand-orange transition shadow-sm">
-                <i class="ph-bold ph-moon"></i>
-            </button>
-            <a href="#products" class="hidden md:inline-block bg-brand-orange hover:bg-orange-600 text-white font-bold py-2.5 px-6 rounded-full transition shadow-lg shadow-orange-500/30">
-                Lihat Katalog
+    <!-- NAVBAR (FLOATING & STICKY DENGAN DUKUNGAN RESPONSIVE MOBILE) -->
+    <header class="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-[1200px] flex flex-col items-center">
+        <nav class="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-5 md:px-7 py-3 rounded-full shadow-xl flex items-center justify-between border border-gray-100 dark:border-gray-800 transition-all duration-300">
+            <!-- Brand Logo -->
+            <a href="#home" class="font-bold text-xl tracking-tight text-brand-dark">
+                Bodhi<span class="text-brand-orange">labs.</span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <div class="hidden md:flex items-center gap-7 text-sm font-semibold text-gray-600 dark:text-gray-300">
+                <a href="#home" id="nav-home" class="hover:text-brand-orange transition border-b-2 border-brand-orange text-brand-orange pb-1 nav-link">Beranda</a>
+                <a href="#products" id="nav-products" class="hover:text-brand-orange transition border-b-2 border-transparent pb-1 nav-link">Katalog Produk</a>
+                <a href="#contact" id="nav-contact" class="hover:text-brand-orange transition border-b-2 border-transparent pb-1 nav-link">Kontak</a>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-2.5 md:gap-4">
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" onclick="toggleTheme()" class="w-10 h-10 rounded-full bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-brand-orange transition shadow-sm" aria-label="Toggle Mode Gelap">
+                    <i class="ph-bold ph-moon text-lg"></i>
+                </button>
+
+                <!-- Desktop CTA Button -->
+                <a href="#products" class="hidden md:inline-block bg-brand-orange hover:bg-orange-600 text-white text-sm font-bold py-2.5 px-6 rounded-full transition shadow-lg shadow-orange-500/30">
+                    Lihat Katalog
+                </a>
+
+                <!-- Mobile Hamburger Toggle Button -->
+                <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden w-10 h-10 rounded-full bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:text-brand-orange transition shadow-sm" aria-label="Menu Navigasi">
+                    <i id="menu-icon" class="ph-bold ph-list text-xl"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden w-full max-w-sm mt-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-5 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-800 flex-col gap-2 transition-all duration-300 opacity-0 transform -translate-y-3">
+            <a href="#home" onclick="closeMobileMenu()" class="py-3 px-4 font-semibold text-gray-700 dark:text-gray-200 hover:text-brand-orange hover:bg-orange-50/60 dark:hover:bg-gray-800/70 rounded-2xl transition flex items-center gap-3">
+                <i class="ph-bold ph-house text-lg text-brand-orange"></i> Beranda
+            </a>
+            <a href="#products" onclick="closeMobileMenu()" class="py-3 px-4 font-semibold text-gray-700 dark:text-gray-200 hover:text-brand-orange hover:bg-orange-50/60 dark:hover:bg-gray-800/70 rounded-2xl transition flex items-center gap-3">
+                <i class="ph-bold ph-storefront text-lg text-brand-orange"></i> Katalog Produk
+            </a>
+            <a href="#contact" onclick="closeMobileMenu()" class="py-3 px-4 font-semibold text-gray-700 dark:text-gray-200 hover:text-brand-orange hover:bg-orange-50/60 dark:hover:bg-gray-800/70 rounded-2xl transition flex items-center gap-3">
+                <i class="ph-bold ph-envelope-simple text-lg text-brand-orange"></i> Kontak
+            </a>
+            <div class="h-px bg-gray-100 dark:bg-gray-800 my-1"></div>
+            <a href="#products" onclick="closeMobileMenu()" class="bg-brand-orange hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-2xl transition shadow-lg shadow-orange-500/30 text-center flex items-center justify-center gap-2">
+                <i class="ph-bold ph-squares-four"></i> Jelajahi Produk
             </a>
         </div>
-    </nav>
+    </header>
 
     <!-- PUBLIC VIEW WRAPPER -->
     <div id="public-view" class="w-full max-w-[1400px] mx-auto px-4 md:px-6 flex flex-col gap-8">
@@ -454,9 +486,52 @@
     <!-- CONFIG FILE -->
     <script src="config.js"></script>
 
-    <!-- LOGIKA JAVASCRIPT BULLETPROOF -->
+    <!-- LOGIKA JAVASCRIPT BULLETPROOF & MOBILE MENU -->
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // MOBILE MENU LOGIC
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            const isHidden = menu.classList.contains('hidden');
+
+            if (isHidden) {
+                menu.classList.remove('hidden');
+                menu.classList.add('flex');
+                setTimeout(() => {
+                    menu.classList.remove('opacity-0', '-translate-y-3');
+                }, 10);
+                icon.classList.remove('ph-list');
+                icon.classList.add('ph-x');
+            } else {
+                closeMobileMenu();
+            }
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            if (!menu || menu.classList.contains('hidden')) return;
+
+            menu.classList.add('opacity-0', '-translate-y-3');
+            if(icon) {
+                icon.classList.remove('ph-x');
+                icon.classList.add('ph-list');
+            }
+            setTimeout(() => {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex');
+            }, 250);
+        }
+
+        // Close mobile menu when clicked outside
+        document.addEventListener('click', (e) => {
+            const header = document.querySelector('header');
+            if (header && !header.contains(e.target)) {
+                closeMobileMenu();
+            }
+        });
 
         // 1. STATE LOKAL (DEFAULT DEMO DATA)
         let appData = {
@@ -483,7 +558,6 @@
             const rawUrl = typeof CONFIG !== 'undefined' ? CONFIG.SUPABASE_URL : '';
             const rawKey = typeof CONFIG !== 'undefined' ? CONFIG.SUPABASE_ANON_KEY : '';
             
-            // Validasi format URL agar tidak menyebabkan script error
             if (rawUrl && rawUrl.startsWith('http') && !rawUrl.includes('$SUPABASE_URL') && !rawUrl.includes('XYZ.supabase.co')) {
                 _supabase = supabase.createClient(rawUrl, rawKey);
             }
@@ -493,7 +567,6 @@
 
         // 3. FUNGSI LOAD DATA DARI SERVER
         async function loadSupabaseData() {
-            // Render UI seketika dengan data default
             renderPublicUI();
 
             if (!_supabase) {
@@ -530,7 +603,6 @@
                 const { data: msgData } = await _supabase.from('messages').select('*').order('id', { ascending: false });
                 if (msgData) appData.messages = msgData;
 
-                // Render ulang setelah data server berhasil ditarik
                 renderPublicUI();
             } catch (error) {
                 console.error("Gagal sinkronisasi data Supabase:", error);
@@ -786,7 +858,9 @@
         }
 
         function showCMS() {
-            document.getElementById('public-view').classList.add('hidden'); document.querySelector('nav').classList.add('hidden'); 
+            closeMobileMenu();
+            document.getElementById('public-view').classList.add('hidden'); 
+            document.querySelector('header').classList.add('hidden'); 
             document.querySelector('footer').classList.add('hidden');
             const waBtn = document.getElementById('floating-wa'); if(waBtn) waBtn.classList.add('hidden');
             
@@ -803,7 +877,8 @@
 
         function logoutAdmin() {
             document.getElementById('cms-view').classList.add('hidden'); document.getElementById('cms-view').classList.remove('flex');
-            document.getElementById('public-view').classList.remove('hidden'); document.querySelector('nav').classList.remove('hidden');
+            document.getElementById('public-view').classList.remove('hidden'); 
+            document.querySelector('header').classList.remove('hidden');
             document.querySelector('footer').classList.remove('hidden');
             const waBtn = document.getElementById('floating-wa'); if(waBtn) waBtn.classList.remove('hidden');
             
