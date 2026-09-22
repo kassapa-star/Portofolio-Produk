@@ -55,7 +55,7 @@
         html.dark .border-gray-100, html.dark .border-gray-200 { border-color: #334155 !important; }
         html.dark input, html.dark textarea { color: #ffffff !important; background-color: #0f172a !important; border-color: #334155 !important; }
 
-        /* Styling dasar untuk Bento Box */
+        /* Bento Box Style */
         .bento-card {
             background: #ffffff;
             border-radius: 2rem;
@@ -65,7 +65,7 @@
             transition: all 0.3s ease;
         }
 
-        /* Animasi mengambang untuk karakter 3D */
+        /* 3D Character Float Animation */
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
@@ -73,7 +73,7 @@
         }
         .animate-float { animation: float 4s ease-in-out infinite; }
 
-        /* Kustomisasi scrollbar agar lebih estetik */
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #FF8A00; border-radius: 4px; }
@@ -115,10 +115,10 @@
                     <a href="#" class="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center text-lg shadow-md hover:-translate-y-1 transition"><i class="ph-bold ph-youtube-logo"></i></a>
                 </div>
                 <h1 id="hero-greeting" class="text-4xl md:text-6xl font-extrabold text-brand-dark mb-6 leading-tight">
-                    Memuat...
+                    Halo, Saya <span class="text-brand-orange">Bodhi</span>
                 </h1>
                 <p id="hero-desc" class="text-gray-600 mb-10 text-lg leading-relaxed max-w-lg">
-                    Menghubungkan ke server...
+                    Saya mendesain dan mengembangkan produk digital yang cantik, fungsional, dan siap pakai. Jelajahi katalog aplikasi dan website premium saya untuk mempercepat pertumbuhan bisnis Anda.
                 </p>
                 <div class="flex flex-wrap gap-4">
                     <a href="#products" class="bg-brand-orange hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition shadow-lg shadow-orange-500/30 flex items-center gap-2">
@@ -130,10 +130,8 @@
                 </div>
             </div>
             <div class="md:w-1/2 relative flex justify-center">
-                <!-- Ornamen Latar Belakang Lingkaran -->
                 <div class="absolute inset-0 bg-orange-100 rounded-full blur-3xl opacity-50 w-[120%] h-[120%] -left-[10%] -top-[10%] -z-10 dark:bg-orange-900/20"></div>
-                <!-- Gambar 3D Laki-laki memegang laptop -->
-                <img id="hero-image" src="https://placehold.co/400x400/f3f4f6/a1a1aa?text=Loading" alt="Bodhi" class="w-full max-w-md drop-shadow-2xl animate-float object-contain">
+                <img id="hero-image" src="https://cdni.iconscout.com/illustration/premium/thumb/web-developer-4584674-3823485.png" alt="Bodhi" class="w-full max-w-md drop-shadow-2xl animate-float object-contain">
             </div>
         </section>
 
@@ -167,13 +165,9 @@
                 <p class="text-gray-500 max-w-2xl mx-auto">Kumpulan produk aplikasi dan website premium yang siap Anda gunakan. Jelajahi detail fitur dan coba langsung melalui Live Demo.</p>
             </div>
 
-            <!-- FITUR: FILTER & SEARCH -->
+            <!-- FILTER & SEARCH -->
             <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
-                <!-- Filter Pills -->
-                <div id="filter-container" class="flex flex-wrap justify-center gap-2 overflow-x-auto w-full md:w-auto hide-scrollbar">
-                    <!-- Kategori diisi oleh JS -->
-                </div>
-                <!-- Search Bar -->
+                <div id="filter-container" class="flex flex-wrap justify-center gap-2 overflow-x-auto w-full md:w-auto hide-scrollbar"></div>
                 <div class="relative w-full md:w-72 shrink-0">
                     <input type="text" id="search-input" placeholder="Cari nama produk..." class="w-full bg-gray-50 px-5 py-3 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-orange transition text-brand-dark">
                     <i class="ph-bold ph-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
@@ -181,16 +175,14 @@
             </div>
 
             <!-- Product Grid -->
-            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Produk akan di-render di sini oleh JavaScript -->
-            </div>
+            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         </section>
 
         <!-- SECTION 3: CONTACT (BENTO) -->
         <section class="bento-card p-8 md:p-12" id="contact">
             <div class="flex flex-col md:flex-row gap-12 items-center">
                 <div class="md:w-5/12 flex flex-col items-center text-center">
-                    <img id="public-contact-img" src="https://placehold.co/400x400/f3f4f6/a1a1aa?text=Loading" alt="Contact Us" class="w-48 h-48 object-cover rounded-full mb-6 border-4 border-orange-50 shadow-lg dark:border-gray-700">
+                    <img id="public-contact-img" src="https://images.unsplash.com/photo-1596526131083-e8c633c948d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Contact Us" class="w-48 h-48 object-cover rounded-full mb-6 border-4 border-orange-50 shadow-lg dark:border-gray-700">
                     <h2 class="text-2xl font-bold text-brand-dark mb-2">Mari Berdiskusi</h2>
                     <p class="text-gray-500 text-sm">Tertarik membeli lisensi, melakukan kustomisasi produk, atau memiliki pertanyaan lain? Jangan ragu untuk mengirim pesan.</p>
                 </div>
@@ -215,7 +207,6 @@
         </section>
 
     </div>
-    <!-- END PUBLIC VIEW WRAPPER -->
 
     <!-- FOOTER -->
     <footer class="w-full max-w-[1400px] mx-auto mt-10 py-8 border-t border-gray-200 dark:border-gray-800 flex justify-center items-center gap-3 text-sm text-gray-500 relative z-10 transition-colors duration-300">
@@ -225,19 +216,16 @@
         </button>
     </footer>
 
-    <!-- FITUR: PUBLIC PRODUCT DETAIL MODAL -->
+    <!-- PRODUCT DETAIL MODAL -->
     <div id="product-detail-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] hidden flex items-center justify-center opacity-0 transition-opacity p-4 md:p-8">
         <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-5xl max-h-[90vh] shadow-2xl scale-95 transition-transform flex flex-col md:flex-row overflow-hidden" id="product-detail-card">
-            <!-- Kolom Gambar -->
             <div class="md:w-1/2 bg-gray-50 dark:bg-gray-900 relative">
                 <button onclick="closePublicProductModal()" class="md:hidden absolute top-4 right-4 bg-white/50 backdrop-blur-md text-gray-800 p-2 rounded-full z-10"><i class="ph-bold ph-x"></i></button>
                 <img id="detail-img" src="" alt="Product Detail" class="w-full h-64 md:h-full object-cover">
-                <!-- Promo Badge Detail -->
                 <div id="detail-promo-badge" class="hidden absolute top-6 left-6 bg-red-500 text-white text-sm font-black px-4 py-2 rounded-full shadow-lg animate-pulse tracking-widest">
                     PROMO SALE
                 </div>
             </div>
-            <!-- Kolom Konten -->
             <div class="md:w-1/2 p-8 md:p-10 flex flex-col h-full overflow-y-auto">
                 <div class="flex justify-between items-start mb-4">
                     <div>
@@ -251,17 +239,13 @@
                 
                 <div class="mb-8">
                     <h4 class="text-sm font-bold text-brand-dark mb-3">Teknologi Pendukung</h4>
-                    <div id="detail-tech" class="flex flex-wrap gap-2">
-                        <!-- Tech stack pills -->
-                    </div>
+                    <div id="detail-tech" class="flex flex-wrap gap-2"></div>
                 </div>
 
                 <div class="border-t border-gray-100 dark:border-gray-700 pt-6 mt-auto">
                     <div class="flex items-center justify-between mb-4">
                         <span class="text-gray-500 text-sm">Harga Lisensi Penuh</span>
-                        <div class="text-right" id="detail-price-container">
-                            <!-- Harga dirender via JS -->
-                        </div>
+                        <div class="text-right" id="detail-price-container"></div>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-3">
                         <a id="detail-demo-btn" href="#" target="_blank" class="flex-1 text-center bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-brand-dark font-bold py-4 px-6 rounded-xl transition flex items-center justify-center gap-2">
@@ -276,7 +260,7 @@
         </div>
     </div>
 
-    <!-- MODAL LOGIN CMS -->
+    <!-- CMS LOGIN MODAL -->
     <div id="login-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center opacity-0 transition-opacity">
         <div class="bg-white p-10 rounded-[2rem] w-full max-w-[400px] shadow-2xl scale-95 transition-transform text-center flex flex-col items-center" id="login-card">
             <div class="w-16 h-16 rounded-full flex items-center justify-center mb-5 text-3xl bg-orange-50 text-brand-orange">
@@ -294,9 +278,8 @@
         </div>
     </div>
 
-    <!-- CMS VIEW WRAPPER (HIDDEN BY DEFAULT) -->
+    <!-- CMS VIEW WRAPPER -->
     <div id="cms-view" class="hidden min-h-screen bg-transparent px-4 md:px-6 flex-col pb-20 pt-8 absolute inset-0 z-40">
-        <!-- CMS HEADER -->
         <div class="w-full max-w-[1400px] mx-auto bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-8 flex justify-between items-center mt-6 dark:bg-gray-800 dark:border-gray-700">
             <div>
                 <h1 class="text-2xl font-bold text-brand-dark">Bodhilabs Workspace</h1>
@@ -307,9 +290,7 @@
             </button>
         </div>
 
-        <!-- CMS CONTENT -->
         <div class="w-full max-w-[1400px] mx-auto flex flex-col md:flex-row gap-8">
-            <!-- CMS SIDEBAR (TABS) -->
             <div class="md:w-64 shrink-0 flex flex-col gap-2">
                 <button onclick="switchAdminTab('tab-profile')" id="btn-tab-profile" class="cms-tab-btn w-full text-left px-5 py-4 rounded-xl font-semibold transition bg-brand-orange text-white shadow-md">
                     <i class="ph-bold ph-user-circle mr-2"></i> Profil & Hero
@@ -323,10 +304,7 @@
                 </button>
             </div>
 
-            <!-- CMS PANELS -->
             <div class="flex-1 bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 dark:bg-gray-800 dark:border-gray-700">
-                
-                <!-- TAB: PROFILE -->
                 <div id="tab-profile" class="cms-panel block">
                     <h2 class="text-xl font-bold text-brand-dark mb-6 border-b pb-4 dark:border-gray-700">Pengaturan Profil & Hero</h2>
                     <form id="cms-profile-form" class="flex flex-col gap-6">
@@ -340,25 +318,22 @@
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Upload Foto Profil -->
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Gambar Profil (Hero)</label>
                                 <div class="flex gap-4 items-center">
                                     <div class="relative shrink-0 group">
                                         <img id="cms-hero-img-preview" src="" class="w-16 h-16 rounded-xl object-cover border border-gray-200 bg-gray-50 dark:border-gray-600">
-                                        <button type="button" onclick="removeProfileImage()" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition shadow-md" title="Hapus Gambar"><i class="ph-bold ph-x"></i></button>
+                                        <button type="button" onclick="removeProfileImage()" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition shadow-md"><i class="ph-bold ph-x"></i></button>
                                     </div>
                                     <input type="file" id="cms-hero-img" accept="image/*" class="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange text-sm outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-brand-orange hover:file:bg-orange-100 cursor-pointer text-gray-600 dark:border-gray-600 dark:text-gray-300 dark:file:bg-gray-700">
                                 </div>
                             </div>
-
-                            <!-- Upload Foto Kontak -->
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Gambar Kontak (Inquiry)</label>
                                 <div class="flex gap-4 items-center">
                                     <div class="relative shrink-0 group">
                                         <img id="cms-contact-img-preview" src="" class="w-16 h-16 rounded-xl object-cover border border-gray-200 bg-gray-50 dark:border-gray-600">
-                                        <button type="button" onclick="removeContactImage()" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition shadow-md" title="Hapus Gambar"><i class="ph-bold ph-x"></i></button>
+                                        <button type="button" onclick="removeContactImage()" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition shadow-md"><i class="ph-bold ph-x"></i></button>
                                     </div>
                                     <input type="file" id="cms-contact-img" accept="image/*" class="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange text-sm outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-brand-orange hover:file:bg-orange-100 cursor-pointer text-gray-600 dark:border-gray-600 dark:text-gray-300 dark:file:bg-gray-700">
                                 </div>
@@ -369,7 +344,6 @@
                     </form>
                 </div>
 
-                <!-- TAB: PRODUCTS -->
                 <div id="tab-products" class="cms-panel hidden">
                     <div class="flex justify-between items-center border-b pb-4 mb-6 dark:border-gray-700">
                         <h2 class="text-xl font-bold text-brand-dark">Katalog Produk Digital</h2>
@@ -389,25 +363,20 @@
                                     <th class="py-3 px-4 font-semibold text-right">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="cms-product-table-body" class="divide-y divide-gray-100 dark:divide-gray-700">
-                                <!-- Data diisi oleh JS -->
-                            </tbody>
+                            <tbody id="cms-product-table-body" class="divide-y divide-gray-100 dark:divide-gray-700"></tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- TAB: MESSAGES -->
                 <div id="tab-messages" class="cms-panel hidden">
                     <h2 class="text-xl font-bold text-brand-dark mb-6 border-b pb-4 dark:border-gray-700">Kotak Masuk Pesan</h2>
-                    <div id="cms-messages-list" class="flex flex-col gap-4">
-                        <!-- Pesan diisi oleh JS -->
-                    </div>
+                    <div id="cms-messages-list" class="flex flex-col gap-4"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- PRODUCT FORM MODAL (CMS) -->
+    <!-- PRODUCT MODAL -->
     <div id="product-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[110] hidden items-center justify-center opacity-0 transition-opacity overflow-y-auto pt-20 pb-10">
         <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl w-full max-w-2xl shadow-2xl scale-95 transition-transform" id="product-card">
             <div class="flex justify-between items-center mb-6 border-b pb-4 dark:border-gray-700">
@@ -453,7 +422,7 @@
                     <div class="flex gap-4 items-center">
                         <div class="relative shrink-0 group">
                             <img id="prod-img-preview" src="https://placehold.co/400x300/f3f4f6/a1a1aa?text=No+Image" class="w-24 h-16 rounded-xl object-cover border border-gray-200 bg-gray-50 dark:border-gray-600">
-                            <button type="button" onclick="removeProductImage()" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition shadow-md" title="Hapus Gambar"><i class="ph-bold ph-x"></i></button>
+                            <button type="button" onclick="removeProductImage()" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition shadow-md"><i class="ph-bold ph-x"></i></button>
                         </div>
                         <input type="file" id="prod-img" accept="image/*" class="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange text-sm outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-brand-orange hover:file:bg-orange-100 cursor-pointer text-gray-600 dark:border-gray-600 dark:text-gray-300 dark:file:bg-gray-700">
                     </div>
@@ -466,7 +435,7 @@
         </div>
     </div>
 
-    <!-- CUSTOM ALERT MODAL -->
+    <!-- ALERT MODAL -->
     <div id="alert-modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] hidden flex items-center justify-center opacity-0 transition-opacity">
         <div class="bg-white p-10 rounded-[2rem] w-full max-w-[400px] shadow-2xl text-center transform scale-90 transition-transform flex flex-col items-center" id="alert-card">
             <div id="alert-icon" class="mb-5"></div>
@@ -476,25 +445,20 @@
         </div>
     </div>
 
-    <!-- FLOATING WHATSAPP BUTTON -->
+    <!-- FLOATING WHATSAPP -->
     <a href="https://wa.me/6281234567890?text=Halo%20Bodhi,%20saya%20tertarik%20untuk%20berdiskusi%20mengenai%20produk%20digital%20Anda." target="_blank" id="floating-wa" class="fixed bottom-6 right-6 bg-[#25D366] hover:bg-[#20bd5a] text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center z-40 hover:-translate-y-1 transition-all duration-300 group">
         <i class="ph-bold ph-whatsapp-logo text-3xl"></i>
         <span class="absolute right-16 bg-white text-gray-800 text-sm font-semibold py-2 px-4 rounded-xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-gray-100">Hubungi via WA</span>
     </a>
 
-    <!-- FILE KONFIGURASI RAHASIA -->
+    <!-- CONFIG FILE -->
     <script src="config.js"></script>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- LOGIKA JAVASCRIPT BULLETPROOF -->
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        // MENGAMBIL KUNCI DARI config.js (Jika ada), ATAU GUNAKAN DEFAULT DEMO
-        const SUPABASE_URL = typeof CONFIG !== 'undefined' ? CONFIG.SUPABASE_URL : 'https://XYZ.supabase.co'; 
-        const SUPABASE_ANON_KEY = typeof CONFIG !== 'undefined' ? CONFIG.SUPABASE_ANON_KEY : 'eyJhbGciOiJIUzI1NiIsIn...'; 
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // STATE LOKAL (BESERTA DATA DEMO JIKA SUPABASE BELUM DISET)
+        // 1. STATE LOKAL (DEFAULT DEMO DATA)
         let appData = {
             profile: {
                 greeting: "Halo, Saya Bodhi",
@@ -513,28 +477,44 @@
         let searchQuery = '';
         let selectedProductForCheckout = null;
 
+        // 2. INISIALISASI SUPABASE DENGAN PENGAMAN (TRY-CATCH)
+        let _supabase = null;
+        try {
+            const rawUrl = typeof CONFIG !== 'undefined' ? CONFIG.SUPABASE_URL : '';
+            const rawKey = typeof CONFIG !== 'undefined' ? CONFIG.SUPABASE_ANON_KEY : '';
+            
+            // Validasi format URL agar tidak menyebabkan script error
+            if (rawUrl && rawUrl.startsWith('http') && !rawUrl.includes('$SUPABASE_URL') && !rawUrl.includes('XYZ.supabase.co')) {
+                _supabase = supabase.createClient(rawUrl, rawKey);
+            }
+        } catch (e) {
+            console.warn("Koneksi Supabase belum aktif:", e.message);
+        }
+
+        // 3. FUNGSI LOAD DATA DARI SERVER
         async function loadSupabaseData() {
-            // Cek apakah kunci masih default
-            if (SUPABASE_URL.includes('XYZ.supabase.co')) {
-                console.warn("Mode Demo: Kunci Supabase belum dimasukkan.");
-                renderPublicUI();
+            // Render UI seketika dengan data default
+            renderPublicUI();
+
+            if (!_supabase) {
+                console.log("Menjalankan dalam mode lokal/offline.");
                 return;
             }
 
             try {
-                const { data: profData } = await _supabase.from('profile').select('*').eq('id', 1).single();
+                const { data: profData } = await _supabase.from('profile').select('*').eq('id', 1).maybeSingle();
                 if (profData) appData.profile = profData;
 
                 const { data: prodData } = await _supabase.from('products').select('*').order('id', { ascending: false });
-                if (prodData) appData.products = prodData;
+                if (prodData && prodData.length > 0) appData.products = prodData;
 
                 const { data: msgData } = await _supabase.from('messages').select('*').order('id', { ascending: false });
                 if (msgData) appData.messages = msgData;
 
+                // Render ulang setelah data server berhasil ditarik
                 renderPublicUI();
             } catch (error) {
-                console.error("Gagal memuat Supabase:", error);
-                renderPublicUI(); // Render fallback
+                console.error("Gagal sinkronisasi data Supabase:", error);
             }
         }
 
@@ -809,7 +789,7 @@
             const waBtn = document.getElementById('floating-wa'); if(waBtn) waBtn.classList.remove('hidden');
             
             renderPublicUI(); window.scrollTo(0, 0);
-            showAlert('Sampai Jumpa', 'Anda telah keluar dari CMS. Perubahan diaplikasikan ke halaman publik.', 'success');
+            showAlert('Sampai Jumpa', 'Anda telah keluar dari CMS.', 'success');
         }
 
         function switchAdminTab(tabId) {
@@ -835,7 +815,7 @@
                 contactImage: document.getElementById('cms-contact-img-preview').src
             };
 
-            if(!SUPABASE_URL.includes('XYZ')) {
+            if(_supabase) {
                 showAlert('Menyimpan...', 'Menyinkronkan data profil ke server...', 'loading');
                 const { error } = await _supabase.from('profile').upsert(newData);
                 if(error) return showAlert('Gagal Menyimpan', error.message, 'error');
@@ -900,7 +880,7 @@
                 imageUrl: document.getElementById('prod-img-preview').src
             };
 
-            if(!SUPABASE_URL.includes('XYZ')) {
+            if(_supabase) {
                 showAlert('Menyimpan...', 'Menyimpan data produk ke server...', 'loading');
                 const { error } = await _supabase.from('products').upsert(newProd);
                 if(error) return showAlert('Gagal Menyimpan', error.message, 'error');
@@ -916,7 +896,7 @@
         function editProduct(id) { openProductModal(id); }
         async function deleteProduct(id) {
             if(confirm('Yakin ingin menghapus produk ini permanen?')) {
-                if(!SUPABASE_URL.includes('XYZ')) {
+                if(_supabase) {
                     showAlert('Menghapus...', 'Menghapus data dari server...', 'loading');
                     const { error } = await _supabase.from('products').delete().eq('id', id);
                     if(error) return showAlert('Gagal Menghapus', error.message, 'error');
@@ -935,7 +915,7 @@
                 date: new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' })
             };
             
-            if(!SUPABASE_URL.includes('XYZ')) {
+            if(_supabase) {
                 showAlert('Mengirim...', 'Menghubungkan ke server...', 'loading');
                 const { error } = await _supabase.from('messages').insert([newMsg]);
                 if(error) return showAlert('Gagal Mengirim', 'Sistem gagal mengirim. Coba lagi.', 'error');
@@ -975,7 +955,7 @@
 
         async function deleteMessage(id) {
             if(confirm('Hapus pesan ini permanen?')) {
-                if(!SUPABASE_URL.includes('XYZ')) {
+                if(_supabase) {
                     showAlert('Menghapus...', 'Menghapus data...', 'loading');
                     const { error } = await _supabase.from('messages').delete().eq('id', id);
                     if(error) return showAlert('Gagal Menghapus', error.message, 'error');
@@ -1003,7 +983,7 @@
             if(icon) icon.classList.replace('ph-moon', 'ph-sun');
         }
 
-        // INIT LOAD
+        // LOAD DATA
         loadSupabaseData();
     </script>
 </body>
