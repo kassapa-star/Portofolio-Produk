@@ -246,10 +246,7 @@
 
     <!-- FOOTER -->
     <footer class="w-full max-w-[1400px] mx-auto mt-10 py-8 border-t border-gray-200 dark:border-gray-800 flex justify-center items-center gap-3 text-sm text-gray-500 relative z-10 transition-colors duration-300">
-        <p class="font-medium">&copy; <span id="current-year"></span> Bodhilabs. All rights reserved.</p>
-        <button onclick="openLoginModal()" class="text-gray-400 hover:text-brand-orange transition flex items-center p-1 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800" title="Admin Login">
-            <i class="ph-fill ph-lock-key text-base"></i>
-        </button>
+        <p class="font-medium select-none cursor-default" id="footer-copyright" title="">&copy; <span id="current-year"></span> Bodhilabs. All rights reserved.</p>
     </footer>
 
     <!-- PRODUCT DETAIL MODAL (DENGAN CAROUSEL MULTI-SCREENSHOT) -->
@@ -1404,9 +1401,47 @@
             }
         }
 
+        // AKSES RAHASIA ADMIN (PENGGANTI IKON GEMBOK)
+        // 1. Shortcut Keyboard: Tekan tombol Ctrl + Shift + L (atau Cmd + Shift + L di Mac)
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key.toLowerCase() === 'l' || e.code === 'KeyL')) {
+                e.preventDefault();
+                openLoginModal();
+            }
+        });
+
+        // 2. Akses via URL: Cukup ketik #admin di akhir alamat website (misal: bodhilabs.vercel.app/#admin)
+        function checkAdminHash() {
+            if (window.location.hash === '#admin') {
+                openLoginModal();
+                history.replaceState(null, null, ' '); // Bersihkan hash dari URL agar rapi
+            }
+        }
+        window.addEventListener('hashchange', checkAdminHash);
+
+        // 3. Sentuhan Rahasia di Footer: Klik 3x cepat pada teks copyright footer
+        let secretClickCount = 0;
+        let secretClickTimer = null;
+        const footerText = document.getElementById('footer-copyright');
+        if (footerText) {
+            footerText.addEventListener('click', () => {
+                secretClickCount++;
+                clearTimeout(secretClickTimer);
+                if (secretClickCount >= 3) {
+                    openLoginModal();
+                    secretClickCount = 0;
+                } else {
+                    secretClickTimer = setTimeout(() => {
+                        secretClickCount = 0;
+                    }, 600);
+                }
+            });
+        }
+
         // INITIAL LOAD
         loadSupabaseData();
         checkAuthSession();
+        checkAdminHash();
     </script>
 </body>
 </html>
