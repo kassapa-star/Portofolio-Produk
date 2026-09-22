@@ -503,10 +503,29 @@
 
             try {
                 const { data: profData } = await _supabase.from('profile').select('*').eq('id', 1).maybeSingle();
-                if (profData) appData.profile = profData;
+                if (profData) {
+                    appData.profile = {
+                        greeting: profData.greeting || appData.profile.greeting,
+                        description: profData.description || appData.profile.description,
+                        imageUrl: profData.imageUrl || profData.imageurl || appData.profile.imageUrl,
+                        contactImage: profData.contactImage || profData.contactimage || appData.profile.contactImage
+                    };
+                }
 
                 const { data: prodData } = await _supabase.from('products').select('*').order('id', { ascending: false });
-                if (prodData && prodData.length > 0) appData.products = prodData;
+                if (prodData && prodData.length > 0) {
+                    appData.products = prodData.map(p => ({
+                        id: p.id,
+                        title: p.title,
+                        category: p.category,
+                        price: p.price,
+                        promoPrice: p.promoPrice !== undefined ? p.promoPrice : (p.promoprice || null),
+                        techStack: p.techStack || p.techstack || '',
+                        description: p.description || '',
+                        demoUrl: p.demoUrl || p.demourl || '#',
+                        imageUrl: p.imageUrl || p.imageurl || 'https://placehold.co/400x300/f3f4f6/a1a1aa?text=No+Image'
+                    }));
+                }
 
                 const { data: msgData } = await _supabase.from('messages').select('*').order('id', { ascending: false });
                 if (msgData) appData.messages = msgData;
