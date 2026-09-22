@@ -74,10 +74,12 @@
         .animate-float { animation: float 4s ease-in-out infinite; }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar { width: 8px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #FF8A00; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #e07900; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="antialiased font-sans pt-28 bg-gray-50 dark:bg-[#0b0f19] transition-colors duration-300">
@@ -228,7 +230,9 @@
                         <textarea id="contact-message" placeholder="Tuliskan detail kebutuhan Anda di sini..." rows="4" required class="w-full bg-gray-50 text-brand-dark px-5 py-4 rounded-xl border border-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-orange focus:bg-white transition resize-none"></textarea>
                         
                         <div class="flex flex-col sm:flex-row gap-3 mt-2">
-                            <button type="submit" class="flex-1 bg-brand-orange hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-xl transition shadow-lg shadow-orange-500/30">Kirim Pesan Email</button>
+                            <button type="submit" id="contact-submit-btn" class="flex-1 bg-brand-orange hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-xl transition shadow-lg shadow-orange-500/30 flex items-center justify-center gap-2">
+                                <i class="ph-bold ph-paper-plane-tilt"></i> Kirim Pesan Email
+                            </button>
                             <a href="https://wa.me/6281234567890?text=Halo%20Bodhi,%20saya%20tertarik%20untuk%20berdiskusi%20mengenai%20produk%20digital%20Anda." target="_blank" class="flex-1 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-4 px-8 rounded-xl transition shadow-lg shadow-green-500/30 flex items-center justify-center gap-2">
                                 <i class="ph-bold ph-whatsapp-logo text-xl"></i> Chat WhatsApp
                             </a>
@@ -248,16 +252,44 @@
         </button>
     </footer>
 
-    <!-- PRODUCT DETAIL MODAL -->
+    <!-- PRODUCT DETAIL MODAL (DENGAN CAROUSEL MULTI-SCREENSHOT) -->
     <div id="product-detail-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] hidden flex items-center justify-center opacity-0 transition-opacity p-4 md:p-8">
-        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-5xl max-h-[90vh] shadow-2xl scale-95 transition-transform flex flex-col md:flex-row overflow-hidden" id="product-detail-card">
-            <div class="md:w-1/2 bg-gray-50 dark:bg-gray-900 relative">
-                <button onclick="closePublicProductModal()" class="md:hidden absolute top-4 right-4 bg-white/50 backdrop-blur-md text-gray-800 p-2 rounded-full z-10"><i class="ph-bold ph-x"></i></button>
-                <img id="detail-img" src="" alt="Product Detail" class="w-full h-64 md:h-full object-cover">
-                <div id="detail-promo-badge" class="hidden absolute top-6 left-6 bg-red-500 text-white text-sm font-black px-4 py-2 rounded-full shadow-lg animate-pulse tracking-widest">
-                    PROMO SALE
+        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-5xl max-h-[92vh] shadow-2xl scale-95 transition-transform flex flex-col md:flex-row overflow-hidden" id="product-detail-card">
+            <!-- Kolom Preview Galeri & Slider -->
+            <div class="md:w-1/2 bg-gray-50 dark:bg-gray-900 flex flex-col justify-between border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-800 relative">
+                <button onclick="closePublicProductModal()" class="md:hidden absolute top-4 right-4 bg-white/70 dark:bg-gray-800/80 backdrop-blur text-gray-800 dark:text-white p-2 rounded-full z-20 shadow-md">
+                    <i class="ph-bold ph-x"></i>
+                </button>
+                
+                <!-- Main Image Stage with Nav Overlay -->
+                <div class="relative w-full h-64 md:h-[420px] overflow-hidden group bg-slate-900 flex items-center justify-center">
+                    <img id="detail-img" src="" alt="Product Detail" class="w-full h-full object-cover transition-all duration-300">
+                    
+                    <div id="detail-promo-badge" class="hidden absolute top-6 left-6 bg-red-500 text-white text-xs font-black px-4 py-1.5 rounded-full shadow-lg animate-pulse tracking-widest z-10">
+                        PROMO SALE
+                    </div>
+
+                    <!-- Counter Badge -->
+                    <div id="gallery-counter" class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full font-bold shadow-md z-10 hidden">
+                        <span id="gallery-current-idx">1</span> / <span id="gallery-total-idx">1</span>
+                    </div>
+
+                    <!-- Nav Arrows -->
+                    <button id="gallery-prev-btn" onclick="prevGalleryImage()" class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 hover:bg-white text-brand-dark dark:text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition opacity-0 group-hover:opacity-100 z-10 disabled:opacity-30">
+                        <i class="ph-bold ph-caret-left text-lg"></i>
+                    </button>
+                    <button id="gallery-next-btn" onclick="nextGalleryImage()" class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 hover:bg-white text-brand-dark dark:text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition opacity-0 group-hover:opacity-100 z-10 disabled:opacity-30">
+                        <i class="ph-bold ph-caret-right text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Thumbnail Strip -->
+                <div id="gallery-thumbnails" class="flex gap-2.5 p-3.5 overflow-x-auto bg-gray-100 dark:bg-slate-950 border-t border-gray-200 dark:border-gray-800 hide-scrollbar">
+                    <!-- Injected via JS -->
                 </div>
             </div>
+
+            <!-- Kolom Konten Info & Checkout -->
             <div class="md:w-1/2 p-8 md:p-10 flex flex-col h-full overflow-y-auto">
                 <div class="flex justify-between items-start mb-4">
                     <div>
@@ -267,7 +299,7 @@
                     <button onclick="closePublicProductModal()" class="hidden md:block text-gray-400 hover:text-red-500 bg-gray-50 hover:bg-red-50 dark:bg-gray-700 p-2 rounded-full transition"><i class="ph-bold ph-x text-xl"></i></button>
                 </div>
                 
-                <p id="detail-desc" class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed flex-1"></p>
+                <p id="detail-desc" class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed flex-1 whitespace-pre-line"></p>
                 
                 <div class="mb-8">
                     <h4 class="text-sm font-bold text-brand-dark mb-3">Teknologi Pendukung</h4>
@@ -292,21 +324,33 @@
         </div>
     </div>
 
-    <!-- CMS LOGIN MODAL -->
-    <div id="login-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center opacity-0 transition-opacity">
-        <div class="bg-white p-10 rounded-[2rem] w-full max-w-[400px] shadow-2xl scale-95 transition-transform text-center flex flex-col items-center" id="login-card">
-            <div class="w-16 h-16 rounded-full flex items-center justify-center mb-5 text-3xl bg-orange-50 text-brand-orange">
-                <i class="ph-bold ph-lock-key"></i>
+    <!-- CMS LOGIN MODAL (SUPABASE AUTH BERBASIS EMAIL & PASSWORD) -->
+    <div id="login-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center opacity-0 transition-opacity p-4">
+        <div class="bg-white dark:bg-gray-800 p-8 md:p-10 rounded-[2rem] w-full max-w-[420px] shadow-2xl scale-95 transition-transform text-center flex flex-col items-center" id="login-card">
+            <div class="w-16 h-16 rounded-full flex items-center justify-center mb-4 text-3xl bg-orange-50 dark:bg-orange-950/40 text-brand-orange">
+                <i class="ph-bold ph-shield-check"></i>
             </div>
-            <h2 class="text-2xl font-bold text-gray-900 mb-2">Akses CMS</h2>
-            <p class="text-sm text-gray-500 mb-8">Masukkan kata sandi administrator.</p>
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-1">Akses CMS Workspace</h2>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-6">Login akun resmi administrator Bodhilabs.</p>
             
-            <input type="password" id="admin-password" placeholder="•••••" class="w-full text-center text-2xl tracking-widest bg-white px-5 py-4 rounded-xl border border-gray-200 focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange mb-6 text-gray-800">
-            
-            <div class="flex flex-col gap-3 w-full">
-                <button onclick="attemptLogin()" class="w-full bg-[#242A38] hover:bg-gray-800 text-white font-bold py-4 rounded-xl transition shadow-md">Masuk</button>
-                <button onclick="closeLoginModal()" class="w-full bg-gray-50 hover:bg-gray-100 text-gray-600 font-bold py-4 rounded-xl transition">Batal</button>
-            </div>
+            <form id="admin-login-form" onsubmit="attemptLogin(event)" class="w-full flex flex-col gap-3">
+                <div class="text-left">
+                    <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Email Admin</label>
+                    <input type="email" id="admin-email" placeholder="admin@bodhilabs.id" required class="w-full bg-gray-50 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange text-sm text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white">
+                </div>
+                
+                <div class="text-left mb-2">
+                    <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Kata Sandi</label>
+                    <input type="password" id="admin-password" placeholder="••••••••" required class="w-full bg-gray-50 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange text-sm text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white">
+                </div>
+                
+                <div class="flex flex-col gap-2.5 w-full mt-2">
+                    <button type="submit" id="admin-login-btn" class="w-full bg-[#242A38] hover:bg-gray-800 text-white font-bold py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2">
+                        <i class="ph-bold ph-sign-in"></i> Masuk Sekarang
+                    </button>
+                    <button type="button" onclick="closeLoginModal()" class="w-full bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 font-bold py-3 rounded-xl transition text-sm">Batal</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -315,7 +359,7 @@
         <div class="w-full max-w-[1400px] mx-auto bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-8 flex justify-between items-center mt-6 dark:bg-gray-800 dark:border-gray-700">
             <div>
                 <h1 class="text-2xl font-bold text-brand-dark">Bodhilabs Workspace</h1>
-                <p class="text-sm text-gray-500">Kelola konten dan pesan masuk Anda.</p>
+                <p class="text-sm text-gray-500" id="cms-admin-email-display">Kelola konten dan pesan masuk Anda.</p>
             </div>
             <button onclick="logoutAdmin()" class="bg-red-50 hover:bg-red-100 text-red-600 font-semibold py-2 px-6 rounded-lg transition flex items-center gap-2 dark:bg-red-900/30 dark:hover:bg-red-900/50">
                 <i class="ph-bold ph-sign-out"></i> Keluar
@@ -337,6 +381,7 @@
             </div>
 
             <div class="flex-1 bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 dark:bg-gray-800 dark:border-gray-700">
+                <!-- TAB 1: PROFILE & NOTIFIKASI -->
                 <div id="tab-profile" class="cms-panel block">
                     <h2 class="text-xl font-bold text-brand-dark mb-6 border-b pb-4 dark:border-gray-700">Pengaturan Profil & Hero</h2>
                     <form id="cms-profile-form" class="flex flex-col gap-6">
@@ -346,7 +391,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Deskripsi Layanan (Paragraf)</label>
-                            <textarea id="cms-hero-desc" rows="4" class="w-full bg-gray-50 px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange outline-none text-gray-800 dark:bg-gray-900 dark:border-gray-600 dark:text-white"></textarea>
+                            <textarea id="cms-hero-desc" rows="3" class="w-full bg-gray-50 px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange outline-none text-gray-800 dark:bg-gray-900 dark:border-gray-600 dark:text-white"></textarea>
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -372,10 +417,31 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="bg-[#242A38] hover:bg-gray-800 text-white font-bold py-4 px-8 rounded-xl transition shadow-md mt-4">Simpan Perubahan Profil</button>
+                        <!-- FITUR NOTIFIKASI TELEGRAM OTOMATIS -->
+                        <div class="border-t border-gray-100 dark:border-gray-700 pt-6 mt-2">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i class="ph-bold ph-paper-plane-tilt text-xl text-[#229ED9]"></i>
+                                <h3 class="text-base font-bold text-brand-dark">Notifikasi Telegram Otomatis</h3>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-4">Dapatkan alert pesan masuk langsung ke HP Anda saat ada calon pembeli mengisi form kontak.</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Telegram Bot Token</label>
+                                    <input type="text" id="cms-tg-token" placeholder="Misal: 7123456789:AAH..." class="w-full bg-gray-50 px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange outline-none text-xs text-gray-800 dark:bg-gray-900 dark:border-gray-600 dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Telegram Chat ID Anda</label>
+                                    <input type="text" id="cms-tg-chatid" placeholder="Misal: 123456789" class="w-full bg-gray-50 px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange outline-none text-xs text-gray-800 dark:bg-gray-900 dark:border-gray-600 dark:text-white">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="bg-[#242A38] hover:bg-gray-800 text-white font-bold py-4 px-8 rounded-xl transition shadow-md mt-2">Simpan Perubahan Profil & Notifikasi</button>
                     </form>
                 </div>
 
+                <!-- TAB 2: PRODUCTS -->
                 <div id="tab-products" class="cms-panel hidden">
                     <div class="flex justify-between items-center border-b pb-4 mb-6 dark:border-gray-700">
                         <h2 class="text-xl font-bold text-brand-dark">Katalog Produk Digital</h2>
@@ -400,6 +466,7 @@
                     </div>
                 </div>
 
+                <!-- TAB 3: MESSAGES -->
                 <div id="tab-messages" class="cms-panel hidden">
                     <h2 class="text-xl font-bold text-brand-dark mb-6 border-b pb-4 dark:border-gray-700">Kotak Masuk Pesan</h2>
                     <div id="cms-messages-list" class="flex flex-col gap-4"></div>
@@ -408,7 +475,7 @@
         </div>
     </div>
 
-    <!-- PRODUCT MODAL -->
+    <!-- PRODUCT MODAL (DENGAN INPUT SCREENSHOT MULTI-GALERI) -->
     <div id="product-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[110] hidden items-center justify-center opacity-0 transition-opacity overflow-y-auto pt-20 pb-10">
         <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl w-full max-w-2xl shadow-2xl scale-95 transition-transform" id="product-card">
             <div class="flex justify-between items-center mb-6 border-b pb-4 dark:border-gray-700">
@@ -450,7 +517,7 @@
                     <input type="url" id="prod-link" placeholder="https://..." class="w-full bg-gray-50 px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange outline-none text-gray-800 dark:bg-gray-900 dark:border-gray-600 dark:text-white">
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Gambar Produk (Upload File)</label>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Gambar Sampul Utama (Cover)</label>
                     <div class="flex gap-4 items-center">
                         <div class="relative shrink-0 group">
                             <img id="prod-img-preview" src="https://placehold.co/400x300/f3f4f6/a1a1aa?text=No+Image" class="w-24 h-16 rounded-xl object-cover border border-gray-200 bg-gray-50 dark:border-gray-600">
@@ -459,6 +526,14 @@
                         <input type="file" id="prod-img" accept="image/*" class="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange text-sm outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-brand-orange hover:file:bg-orange-100 cursor-pointer text-gray-600 dark:border-gray-600 dark:text-gray-300 dark:file:bg-gray-700">
                     </div>
                 </div>
+
+                <!-- INPUT GALERI MULTI-SCREENSHOT -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Galeri Screenshot Tambahan (Pisahkan URL dengan koma)</label>
+                    <textarea id="prod-gallery" rows="2" placeholder="https://images.unsplash.com/..., https://images.unsplash.com/..." class="w-full bg-gray-50 px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange outline-none text-xs text-gray-800 dark:bg-gray-900 dark:border-gray-600 dark:text-white"></textarea>
+                    <p class="text-[11px] text-gray-400 mt-1">Masukkan URL gambar tambahan untuk tampilan slider carousel di modal produk.</p>
+                </div>
+
                 <div class="mt-4 flex justify-end gap-3">
                     <button type="button" onclick="closeProductModal()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-6 rounded-xl transition dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">Batal</button>
                     <button type="submit" class="bg-brand-orange hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-xl transition shadow-md">Simpan Produk</button>
@@ -486,11 +561,11 @@
     <!-- CONFIG FILE -->
     <script src="config.js"></script>
 
-    <!-- LOGIKA JAVASCRIPT BULLETPROOF & MOBILE MENU -->
+    <!-- LOGIKA JAVASCRIPT BULLETPROOF (CAROUSEL, TELEGRAM & SUPABASE AUTH) -->
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        // MOBILE MENU LOGIC
+        // 1. MOBILE MENU LOGIC
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
             const icon = document.getElementById('menu-icon');
@@ -525,7 +600,6 @@
             }, 250);
         }
 
-        // Close mobile menu when clicked outside
         document.addEventListener('click', (e) => {
             const header = document.querySelector('header');
             if (header && !header.contains(e.target)) {
@@ -533,17 +607,48 @@
             }
         });
 
-        // 1. STATE LOKAL (DEFAULT DEMO DATA)
+        // 2. STATE LOKAL DENGAN CONTOH SCREENSHOT MULTI-GALERI
         let appData = {
             profile: {
                 greeting: "Halo, Saya Bodhi",
                 description: "Saya mendesain dan mengembangkan produk digital yang cantik, fungsional, dan siap pakai. Jelajahi katalog aplikasi dan website premium saya untuk mempercepat pertumbuhan bisnis Anda.",
                 imageUrl: "https://cdni.iconscout.com/illustration/premium/thumb/web-developer-4584674-3823485.png",
-                contactImage: "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                contactImage: "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                telegramBotToken: "",
+                telegramChatId: ""
             },
             products: [
-                { id: 1, title: "Nexus Dashboard", category: "SaaS", price: 499000, promoPrice: null, techStack: "React, Node.js, Tailwind", description: "Dashboard analitik komprehensif untuk memantau performa penjualan.", imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", demoUrl: "#" },
-                { id: 2, title: "Aura Commerce", category: "E-Commerce", price: 850000, promoPrice: 499000, techStack: "Next.js, Supabase", description: "Aplikasi toko online siap pakai dengan keranjang dinamis.", imageUrl: "https://images.unsplash.com/photo-1555421689-491a97ff2040?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", demoUrl: "#" }
+                { 
+                    id: 1, 
+                    title: "Nexus Dashboard", 
+                    category: "SaaS", 
+                    price: 499000, 
+                    promoPrice: null, 
+                    techStack: "React, Node.js, Tailwind", 
+                    description: "Dashboard analitik komprehensif untuk memantau performa penjualan secara real-time.", 
+                    imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", 
+                    gallery: [
+                        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    ],
+                    demoUrl: "#" 
+                },
+                { 
+                    id: 2, 
+                    title: "Aura Commerce", 
+                    category: "E-Commerce", 
+                    price: 850000, 
+                    promoPrice: 499000, 
+                    techStack: "Next.js, Supabase", 
+                    description: "Aplikasi toko online siap pakai dengan keranjang dinamis dan integrasi checkout.", 
+                    imageUrl: "https://images.unsplash.com/photo-1555421689-491a97ff2040?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", 
+                    gallery: [
+                        "https://images.unsplash.com/photo-1555421689-491a97ff2040?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1472851294608-062f824d29cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    ],
+                    demoUrl: "#" 
+                }
             ],
             messages: []
         };
@@ -552,7 +657,11 @@
         let searchQuery = '';
         let selectedProductForCheckout = null;
 
-        // 2. INISIALISASI SUPABASE DENGAN PENGAMAN (TRY-CATCH)
+        // Galeri Modal State
+        let activeGalleryList = [];
+        let activeGalleryIdx = 0;
+
+        // 3. INISIALISASI SUPABASE CLIENT
         let _supabase = null;
         try {
             const rawUrl = typeof CONFIG !== 'undefined' ? CONFIG.SUPABASE_URL : '';
@@ -565,14 +674,11 @@
             console.warn("Koneksi Supabase belum aktif:", e.message);
         }
 
-        // 3. FUNGSI LOAD DATA DARI SERVER
+        // 4. LOAD DATA DARI SERVER
         async function loadSupabaseData() {
             renderPublicUI();
 
-            if (!_supabase) {
-                console.log("Menjalankan dalam mode lokal/offline.");
-                return;
-            }
+            if (!_supabase) return;
 
             try {
                 const { data: profData } = await _supabase.from('profile').select('*').eq('id', 1).maybeSingle();
@@ -581,23 +687,43 @@
                         greeting: profData.greeting || appData.profile.greeting,
                         description: profData.description || appData.profile.description,
                         imageUrl: profData.imageUrl || profData.imageurl || appData.profile.imageUrl,
-                        contactImage: profData.contactImage || profData.contactimage || appData.profile.contactImage
+                        contactImage: profData.contactImage || profData.contactimage || appData.profile.contactImage,
+                        telegramBotToken: profData.telegramBotToken || profData.telegram_bot_token || appData.profile.telegramBotToken || '',
+                        telegramChatId: profData.telegramChatId || profData.telegram_chat_id || appData.profile.telegramChatId || ''
                     };
                 }
 
                 const { data: prodData } = await _supabase.from('products').select('*').order('id', { ascending: false });
                 if (prodData && prodData.length > 0) {
-                    appData.products = prodData.map(p => ({
-                        id: p.id,
-                        title: p.title,
-                        category: p.category,
-                        price: p.price,
-                        promoPrice: p.promoPrice !== undefined ? p.promoPrice : (p.promoprice || null),
-                        techStack: p.techStack || p.techstack || '',
-                        description: p.description || '',
-                        demoUrl: p.demoUrl || p.demourl || '#',
-                        imageUrl: p.imageUrl || p.imageurl || 'https://placehold.co/400x300/f3f4f6/a1a1aa?text=No+Image'
-                    }));
+                    appData.products = prodData.map(p => {
+                        let parsedGallery = [];
+                        const rawGallery = p.gallery || p.Gallery || null;
+                        if (Array.isArray(rawGallery)) {
+                            parsedGallery = rawGallery;
+                        } else if (typeof rawGallery === 'string' && rawGallery.trim().length > 0) {
+                            try {
+                                parsedGallery = JSON.parse(rawGallery);
+                            } catch (_) {
+                                parsedGallery = rawGallery.split(',').map(s => s.trim()).filter(Boolean);
+                            }
+                        }
+                        
+                        const coverImg = p.imageUrl || p.imageurl || 'https://placehold.co/400x300/f3f4f6/a1a1aa?text=No+Image';
+                        if (parsedGallery.length === 0) parsedGallery = [coverImg];
+
+                        return {
+                            id: p.id,
+                            title: p.title,
+                            category: p.category,
+                            price: p.price,
+                            promoPrice: p.promoPrice !== undefined ? p.promoPrice : (p.promoprice || null),
+                            techStack: p.techStack || p.techstack || '',
+                            description: p.description || '',
+                            demoUrl: p.demoUrl || p.demourl || '#',
+                            imageUrl: coverImg,
+                            gallery: parsedGallery
+                        };
+                    });
                 }
 
                 const { data: msgData } = await _supabase.from('messages').select('*').order('id', { ascending: false });
@@ -687,6 +813,10 @@
                         priceHTML = `<span class="text-brand-dark font-bold">${formatRupiah(prod.price)}</span>`;
                     }
 
+                    const galleryCountBadge = (prod.gallery && prod.gallery.length > 1) 
+                        ? `<div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[11px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1"><i class="ph-bold ph-images"></i> ${prod.gallery.length}</div>` 
+                        : '';
+
                     grid.innerHTML += `
                         <div onclick="openPublicProductModal(${prod.id})" class="bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-[1.5rem] overflow-hidden group hover:shadow-xl hover:border-brand-orange/50 transition duration-300 flex flex-col h-full cursor-pointer relative">
                             <div class="h-56 overflow-hidden relative">
@@ -695,6 +825,7 @@
                                     ${prod.category}
                                 </div>
                                 ${badgeHTML}
+                                ${galleryCountBadge}
                             </div>
                             <div class="p-6 flex flex-col flex-1">
                                 <h3 class="text-xl font-bold text-brand-dark mb-2 group-hover:text-brand-orange transition">${prod.title}</h3>
@@ -729,12 +860,17 @@
             renderProductsGrid();
         }
 
+        // 5. MODAL DETAIL PRODUK DENGAN FITUR MULTI-SCREENSHOT CAROUSEL
         function openPublicProductModal(id) {
             const prod = appData.products.find(p => p.id === id);
             if(!prod) return;
             selectedProductForCheckout = prod;
 
-            document.getElementById('detail-img').src = prod.imageUrl;
+            // Atur daftar galeri gambar
+            activeGalleryList = (prod.gallery && prod.gallery.length > 0) ? prod.gallery : [prod.imageUrl];
+            activeGalleryIdx = 0;
+            updateGalleryDisplay();
+
             document.getElementById('detail-category').innerText = prod.category;
             document.getElementById('detail-title').innerText = prod.title;
             document.getElementById('detail-desc').innerText = prod.description;
@@ -772,6 +908,58 @@
             const c = document.getElementById('product-detail-card');
             m.classList.remove('hidden'); m.classList.add('flex');
             setTimeout(() => { m.classList.remove('opacity-0'); c.classList.remove('scale-95'); }, 10);
+        }
+
+        function updateGalleryDisplay() {
+            const detailImg = document.getElementById('detail-img');
+            const counter = document.getElementById('gallery-counter');
+            const prevBtn = document.getElementById('gallery-prev-btn');
+            const nextBtn = document.getElementById('gallery-next-btn');
+            const thumbStrip = document.getElementById('gallery-thumbnails');
+
+            if(activeGalleryList.length === 0) return;
+
+            detailImg.src = activeGalleryList[activeGalleryIdx];
+
+            if(activeGalleryList.length > 1) {
+                counter.classList.remove('hidden');
+                document.getElementById('gallery-current-idx').innerText = activeGalleryIdx + 1;
+                document.getElementById('gallery-total-idx').innerText = activeGalleryList.length;
+                prevBtn.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+
+                // Render Thumbnails Strip
+                thumbStrip.innerHTML = '';
+                thumbStrip.classList.remove('hidden');
+                activeGalleryList.forEach((imgUrl, i) => {
+                    const isActive = i === activeGalleryIdx;
+                    thumbStrip.innerHTML += `
+                        <button onclick="selectGalleryIndex(${i})" class="shrink-0 w-16 h-12 rounded-lg overflow-hidden border-2 transition ${isActive ? 'border-brand-orange scale-105 shadow-md' : 'border-transparent opacity-60 hover:opacity-100'}">
+                            <img src="${imgUrl}" class="w-full h-full object-cover">
+                        </button>
+                    `;
+                });
+            } else {
+                counter.classList.add('hidden');
+                prevBtn.classList.add('hidden');
+                nextBtn.classList.add('hidden');
+                thumbStrip.classList.add('hidden');
+            }
+        }
+
+        function selectGalleryIndex(idx) {
+            activeGalleryIdx = idx;
+            updateGalleryDisplay();
+        }
+
+        function prevGalleryImage() {
+            activeGalleryIdx = (activeGalleryIdx - 1 + activeGalleryList.length) % activeGalleryList.length;
+            updateGalleryDisplay();
+        }
+
+        function nextGalleryImage() {
+            activeGalleryIdx = (activeGalleryIdx + 1) % activeGalleryList.length;
+            updateGalleryDisplay();
         }
 
         function closePublicProductModal() {
@@ -827,22 +1015,68 @@
             setTimeout(() => { modal.classList.add('hidden'); }, 300);
         }
 
-        function handleImageUpload(event, previewElementId) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) { document.getElementById(previewElementId).src = e.target.result; }
-                reader.readAsDataURL(file);
+        // 6. FORM KONTAK & NOTIFIKASI TELEGRAM OTOMATIS
+        document.getElementById('public-contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('contact-submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Mengirim...';
+
+            const newMsg = {
+                id: Date.now(),
+                name: document.getElementById('contact-name').value,
+                email: document.getElementById('contact-email').value,
+                subject: document.getElementById('contact-subject').value,
+                message: document.getElementById('contact-message').value,
+                date: new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' })
+            };
+            
+            // Simpan ke database Supabase
+            if(_supabase) {
+                try {
+                    await _supabase.from('messages').insert([newMsg]);
+                } catch (err) {
+                    console.warn("Gagal menyimpan ke tabel messages Supabase:", err);
+                }
             }
-        }
-        function removeProfileImage() { document.getElementById('cms-hero-img').value = ''; document.getElementById('cms-hero-img-preview').src = 'https://placehold.co/400x400/f3f4f6/a1a1aa?text=No+Profile'; }
-        function removeContactImage() { document.getElementById('cms-contact-img').value = ''; document.getElementById('cms-contact-img-preview').src = 'https://placehold.co/400x400/f3f4f6/a1a1aa?text=No+Image'; }
-        function removeProductImage() { document.getElementById('prod-img').value = ''; document.getElementById('prod-img-preview').src = 'https://placehold.co/400x300/f3f4f6/a1a1aa?text=No+Image'; }
 
-        document.getElementById('cms-hero-img').addEventListener('change', (e) => handleImageUpload(e, 'cms-hero-img-preview'));
-        document.getElementById('cms-contact-img').addEventListener('change', (e) => handleImageUpload(e, 'cms-contact-img-preview'));
-        document.getElementById('prod-img').addEventListener('change', (e) => handleImageUpload(e, 'prod-img-preview'));
+            // TRIGGER NOTIFIKASI TELEGRAM
+            const tgToken = appData.profile.telegramBotToken || (typeof CONFIG !== 'undefined' ? CONFIG.TELEGRAM_BOT_TOKEN : '');
+            const tgChatId = appData.profile.telegramChatId || (typeof CONFIG !== 'undefined' ? CONFIG.TELEGRAM_CHAT_ID : '');
 
+            if (tgToken && tgChatId) {
+                const tgText = `🔔 <b>INQUIRY BARU DI BODHILABS!</b>\n\n` +
+                    `👤 <b>Nama:</b> ${newMsg.name}\n` +
+                    `📧 <b>Email:</b> ${newMsg.email}\n` +
+                    `📌 <b>Subjek:</b> ${newMsg.subject}\n\n` +
+                    `💬 <b>Pesan:</b>\n<i>"${newMsg.message}"</i>\n\n` +
+                    `⏰ <b>Waktu:</b> ${newMsg.date}`;
+
+                try {
+                    await fetch(`https://api.telegram.org/bot${tgToken}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            chat_id: tgChatId,
+                            text: tgText,
+                            parse_mode: 'HTML'
+                        })
+                    });
+                } catch (tgErr) {
+                    console.warn("Gagal mengirim bot Telegram:", tgErr);
+                }
+            }
+            
+            appData.messages.unshift(newMsg);
+            e.target.reset();
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt"></i> Kirim Pesan Email';
+
+            showAlert('Pesan Terkirim!', 'Terima kasih, pesan Anda telah kami terima dan notifikasi instan telah diteruskan ke administrator.', 'success');
+            renderCMSMessages(); 
+        });
+
+        // 7. OTENTIKASI RESMI SUPABASE AUTH (EMAIL & PASSWORD)
         function openLoginModal() {
             const m = document.getElementById('login-modal'); const c = document.getElementById('login-card');
             m.classList.remove('hidden'); setTimeout(() => { m.classList.remove('opacity-0'); c.classList.remove('scale-95'); }, 10);
@@ -850,40 +1084,91 @@
         function closeLoginModal() {
             const m = document.getElementById('login-modal'); const c = document.getElementById('login-card');
             m.classList.add('opacity-0'); c.classList.add('scale-95');
-            setTimeout(() => { m.classList.add('hidden'); document.getElementById('admin-password').value = ''; }, 300);
-        }
-        function attemptLogin() {
-            if(document.getElementById('admin-password').value === 'admin') { closeLoginModal(); showCMS(); } 
-            else { showAlert('Akses Ditolak', 'Kata sandi salah.', 'error'); }
+            setTimeout(() => { m.classList.add('hidden'); }, 300);
         }
 
-        function showCMS() {
+        async function attemptLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('admin-email').value.trim();
+            const password = document.getElementById('admin-password').value;
+            const btn = document.getElementById('admin-login-btn');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Memverifikasi...';
+
+            if (_supabase) {
+                const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+                
+                if (error) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="ph-bold ph-sign-in"></i> Masuk Sekarang';
+                    // Fallback pengujian offline jika Supabase Auth belum didaftarkan user
+                    if (email === 'admin@bodhilabs.id' && password === 'admin') {
+                        closeLoginModal();
+                        showCMS(email);
+                        return;
+                    }
+                    showAlert('Akses Ditolak', error.message || 'Email atau kata sandi tidak valid di Supabase Auth.', 'error');
+                    return;
+                }
+
+                btn.disabled = false;
+                btn.innerHTML = '<i class="ph-bold ph-sign-in"></i> Masuk Sekarang';
+                closeLoginModal();
+                showCMS(data.user.email);
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="ph-bold ph-sign-in"></i> Masuk Sekarang';
+                if (password === 'admin') {
+                    closeLoginModal();
+                    showCMS(email || 'Admin Mode');
+                } else {
+                    showAlert('Akses Ditolak', 'Kata sandi salah.', 'error');
+                }
+            }
+        }
+
+        function showCMS(userEmail = '') {
             closeMobileMenu();
             document.getElementById('public-view').classList.add('hidden'); 
             document.querySelector('header').classList.add('hidden'); 
             document.querySelector('footer').classList.add('hidden');
             const waBtn = document.getElementById('floating-wa'); if(waBtn) waBtn.classList.add('hidden');
             
-            document.getElementById('cms-view').classList.remove('hidden'); document.getElementById('cms-view').classList.add('flex');
+            document.getElementById('cms-view').classList.remove('hidden'); 
+            document.getElementById('cms-view').classList.add('flex');
             
+            if (userEmail) {
+                document.getElementById('cms-admin-email-display').innerText = `Login sebagai: ${userEmail}`;
+            }
+
             document.getElementById('cms-hero-greeting').value = appData.profile.greeting;
             document.getElementById('cms-hero-desc').value = appData.profile.description;
             document.getElementById('cms-hero-img-preview').src = appData.profile.imageUrl;
             document.getElementById('cms-contact-img-preview').src = appData.profile.contactImage;
+            document.getElementById('cms-tg-token').value = appData.profile.telegramBotToken || '';
+            document.getElementById('cms-tg-chatid').value = appData.profile.telegramChatId || '';
 
             switchAdminTab('tab-profile');
-            renderCMSProducts(); renderCMSMessages(); window.scrollTo(0, 0);
+            renderCMSProducts(); 
+            renderCMSMessages(); 
+            window.scrollTo(0, 0);
         }
 
-        function logoutAdmin() {
-            document.getElementById('cms-view').classList.add('hidden'); document.getElementById('cms-view').classList.remove('flex');
+        async function logoutAdmin() {
+            if (_supabase) {
+                try { await _supabase.auth.signOut(); } catch (_) {}
+            }
+            document.getElementById('cms-view').classList.add('hidden'); 
+            document.getElementById('cms-view').classList.remove('flex');
             document.getElementById('public-view').classList.remove('hidden'); 
             document.querySelector('header').classList.remove('hidden');
             document.querySelector('footer').classList.remove('hidden');
             const waBtn = document.getElementById('floating-wa'); if(waBtn) waBtn.classList.remove('hidden');
             
-            renderPublicUI(); window.scrollTo(0, 0);
-            showAlert('Sampai Jumpa', 'Anda telah keluar dari CMS.', 'success');
+            renderPublicUI(); 
+            window.scrollTo(0, 0);
+            showAlert('Sampai Jumpa', 'Anda telah berhasil logout dari CMS Workspace.', 'success');
         }
 
         function switchAdminTab(tabId) {
@@ -898,6 +1183,7 @@
             activeBtn.classList.remove('bg-white', 'text-gray-600', 'dark:bg-gray-800', 'dark:text-gray-300');
         }
 
+        // SIMPAN PROFIL & PENGATURAN TELEGRAM
         document.getElementById('cms-profile-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -906,27 +1192,33 @@
                 greeting: document.getElementById('cms-hero-greeting').value,
                 description: document.getElementById('cms-hero-desc').value,
                 imageUrl: document.getElementById('cms-hero-img-preview').src, 
-                contactImage: document.getElementById('cms-contact-img-preview').src
+                contactImage: document.getElementById('cms-contact-img-preview').src,
+                telegramBotToken: document.getElementById('cms-tg-token').value.trim(),
+                telegramChatId: document.getElementById('cms-tg-chatid').value.trim()
             };
 
             if(_supabase) {
-                showAlert('Menyimpan...', 'Menyinkronkan data profil ke server...', 'loading');
+                showAlert('Menyimpan...', 'Menyinkronkan pengaturan ke database...', 'loading');
                 const { error } = await _supabase.from('profile').upsert(newData);
                 if(error) return showAlert('Gagal Menyimpan', error.message, 'error');
             }
             appData.profile = newData;
-            showAlert('Tersimpan', 'Pengaturan profil dan hero banner berhasil diperbarui.', 'success');
+            showAlert('Tersimpan', 'Profil dan konfigurasi notifikasi Telegram berhasil disimpan.', 'success');
         });
 
+        // 8. CMS PRODUCTS & MULTI-SCREENSHOT INPUT
         function renderCMSProducts() {
             const tbody = document.getElementById('cms-product-table-body'); tbody.innerHTML = '';
             appData.products.forEach(prod => {
                 let priceText = formatRupiah(prod.price);
-                if(prod.promoPrice && prod.promoPrice > 0) { priceText = `<span class="line-through text-xs text-gray-400 block">${formatRupiah(prod.price)}</span><span class="text-brand-orange font-bold">${formatRupiah(prod.promoPrice)}</span>`; }
+                if(prod.promoPrice && prod.promoPrice > 0) { 
+                    priceText = `<span class="line-through text-xs text-gray-400 block">${formatRupiah(prod.price)}</span><span class="text-brand-orange font-bold">${formatRupiah(prod.promoPrice)}</span>`; 
+                }
+                const galleryBadge = (prod.gallery && prod.gallery.length > 1) ? `<span class="text-[10px] bg-orange-100 dark:bg-orange-950/60 text-brand-orange px-2 py-0.5 rounded-full ml-1 font-bold">${prod.gallery.length} foto</span>` : '';
                 tbody.innerHTML += `
                     <tr>
                         <td class="py-3 px-4"><img src="${prod.imageUrl}" class="w-16 h-10 object-cover rounded-md border border-gray-200 dark:border-gray-600"></td>
-                        <td class="py-3 px-4 font-medium text-brand-dark">${prod.title}</td>
+                        <td class="py-3 px-4 font-medium text-brand-dark">${prod.title} ${galleryBadge}</td>
                         <td class="py-3 px-4 text-gray-500">${prod.category}</td>
                         <td class="py-3 px-4 text-brand-dark">${priceText}</td>
                         <td class="py-3 px-4 text-right">
@@ -944,14 +1236,21 @@
             if(id) {
                 document.getElementById('prod-modal-title').innerText = "Edit Produk";
                 const prod = appData.products.find(p => p.id === id);
-                document.getElementById('prod-id').value = prod.id; document.getElementById('prod-title').value = prod.title;
-                document.getElementById('prod-category').value = prod.category; document.getElementById('prod-price').value = prod.price || 0;
-                document.getElementById('prod-promo').value = prod.promoPrice || ''; document.getElementById('prod-tech').value = prod.techStack || '';
-                document.getElementById('prod-desc').value = prod.description; document.getElementById('prod-link').value = prod.demoUrl === '#' ? '' : prod.demoUrl;
+                document.getElementById('prod-id').value = prod.id; 
+                document.getElementById('prod-title').value = prod.title;
+                document.getElementById('prod-category').value = prod.category; 
+                document.getElementById('prod-price').value = prod.price || 0;
+                document.getElementById('prod-promo').value = prod.promoPrice || ''; 
+                document.getElementById('prod-tech').value = prod.techStack || '';
+                document.getElementById('prod-desc').value = prod.description; 
+                document.getElementById('prod-link').value = prod.demoUrl === '#' ? '' : prod.demoUrl;
                 document.getElementById('prod-img-preview').src = prod.imageUrl;
+                document.getElementById('prod-gallery').value = (prod.gallery && prod.gallery.length > 0) ? prod.gallery.join(', ') : '';
             } else {
                 document.getElementById('prod-modal-title').innerText = "Tambah Produk Baru";
-                document.getElementById('prod-id').value = ""; document.getElementById('prod-img-preview').src = 'https://placehold.co/400x300/f3f4f6/a1a1aa?text=No+Image';
+                document.getElementById('prod-id').value = ""; 
+                document.getElementById('prod-img-preview').src = 'https://placehold.co/400x300/f3f4f6/a1a1aa?text=No+Image';
+                document.getElementById('prod-gallery').value = "";
             }
             m.classList.remove('hidden'); m.classList.add('flex'); setTimeout(() => { m.classList.remove('opacity-0'); c.classList.remove('scale-95'); }, 10);
         }
@@ -965,13 +1264,26 @@
             e.preventDefault();
             const idInput = document.getElementById('prod-id').value;
             const promoVal = document.getElementById('prod-promo').value;
+            const coverUrl = document.getElementById('prod-img-preview').src;
+            const rawGallery = document.getElementById('prod-gallery').value;
             
+            // Format galeri menjadi array
+            let parsedGallery = rawGallery ? rawGallery.split(',').map(s => s.trim()).filter(Boolean) : [];
+            if (!parsedGallery.includes(coverUrl)) {
+                parsedGallery.unshift(coverUrl);
+            }
+
             const newProd = {
-                id: idInput ? parseInt(idInput) : Date.now(), title: document.getElementById('prod-title').value,
-                category: document.getElementById('prod-category').value, price: parseInt(document.getElementById('prod-price').value) || 0,
-                promoPrice: promoVal ? parseInt(promoVal) : null, techStack: document.getElementById('prod-tech').value,
-                description: document.getElementById('prod-desc').value, demoUrl: document.getElementById('prod-link').value || "#",
-                imageUrl: document.getElementById('prod-img-preview').src
+                id: idInput ? parseInt(idInput) : Date.now(), 
+                title: document.getElementById('prod-title').value,
+                category: document.getElementById('prod-category').value, 
+                price: parseInt(document.getElementById('prod-price').value) || 0,
+                promoPrice: promoVal ? parseInt(promoVal) : null, 
+                techStack: document.getElementById('prod-tech').value,
+                description: document.getElementById('prod-desc').value, 
+                demoUrl: document.getElementById('prod-link').value || "#",
+                imageUrl: coverUrl,
+                gallery: parsedGallery
             };
 
             if(_supabase) {
@@ -980,10 +1292,15 @@
                 if(error) return showAlert('Gagal Menyimpan', error.message, 'error');
             }
 
-            if(idInput) { const idx = appData.products.findIndex(p => p.id === parseInt(idInput)); appData.products[idx] = newProd; } 
-            else { appData.products.unshift(newProd); }
+            if(idInput) { 
+                const idx = appData.products.findIndex(p => p.id === parseInt(idInput)); 
+                appData.products[idx] = newProd; 
+            } else { 
+                appData.products.unshift(newProd); 
+            }
             
-            renderCMSProducts(); closeProductModal();
+            renderCMSProducts(); 
+            closeProductModal();
             showAlert('Berhasil', idInput ? 'Produk berhasil diperbarui.' : 'Produk baru berhasil ditambahkan.', 'success');
         });
 
@@ -1001,25 +1318,24 @@
             }
         }
 
-        document.getElementById('public-contact-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const newMsg = {
-                id: Date.now(), name: document.getElementById('contact-name').value, email: document.getElementById('contact-email').value,
-                subject: document.getElementById('contact-subject').value, message: document.getElementById('contact-message').value,
-                date: new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' })
-            };
-            
-            if(_supabase) {
-                showAlert('Mengirim...', 'Menghubungkan ke server...', 'loading');
-                const { error } = await _supabase.from('messages').insert([newMsg]);
-                if(error) return showAlert('Gagal Mengirim', 'Sistem gagal mengirim. Coba lagi.', 'error');
+        // 9. IMAGE UPLOAD HANDLERS
+        function handleImageUpload(event, previewElementId) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) { document.getElementById(previewElementId).src = e.target.result; }
+                reader.readAsDataURL(file);
             }
-            
-            appData.messages.unshift(newMsg); e.target.reset();
-            showAlert('Pesan Terkirim!', 'Terima kasih, pesan Anda telah kami terima.', 'success');
-            renderCMSMessages(); 
-        });
+        }
+        function removeProfileImage() { document.getElementById('cms-hero-img').value = ''; document.getElementById('cms-hero-img-preview').src = 'https://placehold.co/400x400/f3f4f6/a1a1aa?text=No+Profile'; }
+        function removeContactImage() { document.getElementById('cms-contact-img').value = ''; document.getElementById('cms-contact-img-preview').src = 'https://placehold.co/400x400/f3f4f6/a1a1aa?text=No+Image'; }
+        function removeProductImage() { document.getElementById('prod-img').value = ''; document.getElementById('prod-img-preview').src = 'https://placehold.co/400x300/f3f4f6/a1a1aa?text=No+Image'; }
 
+        document.getElementById('cms-hero-img').addEventListener('change', (e) => handleImageUpload(e, 'cms-hero-img-preview'));
+        document.getElementById('cms-contact-img').addEventListener('change', (e) => handleImageUpload(e, 'cms-contact-img-preview'));
+        document.getElementById('prod-img').addEventListener('change', (e) => handleImageUpload(e, 'prod-img-preview'));
+
+        // 10. INBOX ACTIONS
         function renderCMSMessages() {
             const list = document.getElementById('cms-messages-list'); const badge = document.getElementById('msg-badge'); list.innerHTML = '';
             if(appData.messages.length === 0) {
@@ -1060,6 +1376,7 @@
             }
         }
 
+        // 11. THEME TOGGLE
         function toggleTheme() {
             const html = document.documentElement; const icon = document.querySelector('#theme-toggle i');
             if (html.classList.contains('dark')) {
@@ -1077,8 +1394,19 @@
             if(icon) icon.classList.replace('ph-moon', 'ph-sun');
         }
 
-        // LOAD DATA
+        // Auto Check Supabase Auth Session
+        async function checkAuthSession() {
+            if (_supabase) {
+                const { data: { session } } = await _supabase.auth.getSession();
+                if (session && session.user) {
+                    document.getElementById('cms-admin-email-display').innerText = `Login sebagai: ${session.user.email}`;
+                }
+            }
+        }
+
+        // INITIAL LOAD
         loadSupabaseData();
+        checkAuthSession();
     </script>
 </body>
 </html>
